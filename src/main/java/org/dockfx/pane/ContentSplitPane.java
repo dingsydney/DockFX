@@ -1,11 +1,11 @@
 package org.dockfx.pane;
 
 import java.util.Comparator;
-import org.dockfx.DockNode;
-import org.dockfx.DockPos;
-
 import java.util.List;
 import java.util.Stack;
+
+import org.dockfx.dock.DockNode;
+import org.dockfx.dock.DockPos;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;

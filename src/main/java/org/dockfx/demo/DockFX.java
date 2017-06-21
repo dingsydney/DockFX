@@ -27,20 +27,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import org.dockfx.dock.DockNode;
+import org.dockfx.dock.DockPane;
+import org.dockfx.dock.DockPos;
+
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
-import org.dockfx.DockNode;
-import org.dockfx.DockPane;
-import org.dockfx.DockPos;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -50,6 +49,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 
@@ -101,11 +101,11 @@ public class DockFX extends Application {
 
     DockNode tabsDock = new DockNode(tabs, "Tabs Dock", new ImageView(dockImage));
     tabsDock.setPrefSize(300, 100);
-    tabsDock.dock(dockPane, DockPos.TOP);
+    dockPane.dock(tabsDock, DockPos.TOP);
 
     DockNode tableDock = new DockNode(tableView, "Table");
     tableDock.setPrefSize(300, 100);
-    tableDock.dock(dockPane, DockPos.BOTTOM);
+    dockPane.dock(tableDock, DockPos.BOTTOM);
 
     MenuItem saveMenuItem = new MenuItem("Save");
     saveMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -144,10 +144,10 @@ public class DockFX extends Application {
     // and the stage is shown
     DockNode treeDock = new DockNode(generateRandomTree(), "Tree Dock1", new ImageView(dockImage));
     treeDock.setPrefSize(100, 100);
-    treeDock.dock(dockPane, DockPos.LEFT);
+    dockPane.dock(treeDock, DockPos.LEFT);
     treeDock = new DockNode(generateRandomTree(), "Tree Dock2", new ImageView(dockImage));
     treeDock.setPrefSize(100, 100);
-    treeDock.dock(dockPane, DockPos.RIGHT);
+    dockPane.dock(treeDock, DockPos.RIGHT);
 
 	// If you want to get notified when the docknode is closed. You can add ChangeListener to DockNode's closedProperty()
 	treeDock.closedProperty().addListener( new ChangeListener< Boolean >()
@@ -167,7 +167,6 @@ public class DockFX extends Application {
     // using the style manager just as they can with internal JavaFX controls
     // this must be called after the primary stage is shown
     // https://bugs.openjdk.java.net/browse/JDK-8132900
-    DockPane.initializeDefaultUserAgentStylesheet();
 
     // TODO: after this feel free to apply your own global stylesheet using the StyleManager class
   }
