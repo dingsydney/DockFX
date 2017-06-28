@@ -654,4 +654,8 @@ public class DockPane extends StackPane implements EventHandler<DockEvent>{
 	public void addDockNodeEventFilter(DockNode dockNode,DockNodeEventHandler handler){
 		dockNodeEventFilters.put(dockNode,handler);
 	}
+
+	public void setRoot(ContentSplitPane root) {
+		this.root = root;
+	}
 }
