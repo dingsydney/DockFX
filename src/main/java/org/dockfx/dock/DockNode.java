@@ -20,6 +20,7 @@
 
 package org.dockfx.dock;
 
+import javafx.beans.*;
 import org.dockfx.pane.ContentPane;
 import org.dockfx.pane.DockNodeTab;
 import org.dockfx.viewControllers.DockFXViewController;
@@ -388,18 +389,26 @@ public class DockNode extends VBox implements EventHandler<MouseEvent> {
 
 			stage = new Stage();
 
-			dockPane.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
-					new EventHandler<WindowEvent>() {
-						@Override
-						public void handle(WindowEvent event) {
-							stage.close();
+				dockPane.sceneProperty().addListener(new InvalidationListener() {
+					@Override
+					public void invalidated(Observable observable) {
+						if(dockPane.getScene()!=null){
+//							if (dockPane != null && dockPane.getScene() != null && dockPane.getScene().getWindow() != null) {
+//								stage.initOwner(dockPane.getScene().getWindow());
+//							}
+							dockPane.sceneProperty().removeListener(this);
+							dockPane.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
+									new EventHandler<WindowEvent>() {
+										@Override
+										public void handle(WindowEvent event) {
+											stage.close();
+										}
+									});
 						}
-					});
+					}
+				});
 
 			stage.titleProperty().bind(titleProperty);
-			if (dockPane != null && dockPane.getScene() != null && dockPane.getScene().getWindow() != null) {
-				stage.initOwner(dockPane.getScene().getWindow());
-			}
 
 			stage.initStyle(stageStyle);
 
@@ -419,12 +428,13 @@ public class DockNode extends VBox implements EventHandler<MouseEvent> {
 			} else {
 				translateToCenter = true;
 
-				if (null != dockPane) {
-					Window rootWindow = dockPane.getScene().getWindow();
-					double centerX = rootWindow.getX() + (rootWindow.getWidth() / 2);
-					double centerY = rootWindow.getY() + (rootWindow.getHeight() / 2);
-					stagePosition = new Point2D(centerX, centerY);
-				} else {
+//				if (null != dockPane) {
+//					Window rootWindow = dockPane.getScene().getWindow();
+//					double centerX = rootWindow.getX() + (rootWindow.getWidth() / 2);
+//					double centerY = rootWindow.getY() + (rootWindow.getHeight() / 2);
+//					stagePosition = new Point2D(centerX, centerY);
+//				} else
+					{
 					// using the center of the screen if no relative position is available
 					Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 					double centerX = (primScreenBounds.getWidth() - Math.max(getWidth(), getMinWidth())) / 2;

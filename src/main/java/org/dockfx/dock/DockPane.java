@@ -20,10 +20,7 @@
 
 package org.dockfx.dock;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import org.dockfx.pane.ContentPane;
 import org.dockfx.pane.ContentSplitPane;
@@ -657,5 +654,15 @@ public class DockPane extends StackPane implements EventHandler<DockEvent>{
 
 	public void setRoot(ContentSplitPane root) {
 		this.root = root;
+	}
+
+	public void dispose(){
+		List<DockNode> temp = new ArrayList<>(allNodes);
+		allNodes.clear();
+		for(DockNode node:temp){
+			if(node.getStage()!=null){
+				node.getStage().close();
+			}
+		}
 	}
 }

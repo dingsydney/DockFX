@@ -22,6 +22,7 @@
 package org.dockfx.demo;
 
 import javafx.application.Application;
+import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.event.*;
 import javafx.scene.Scene;
@@ -50,6 +51,7 @@ public class DockFXPersistence extends Application {
 
     // create a dock pane that will manage our dock nodes and handle the layout
     DockPane dockPane = new DockPane();
+    final ObjectProperty<DockPane> paneHolder = new SimpleObjectProperty<>(dockPane);
 
     // create a default test node for the center of the dock area
     TabPane tabs = new TabPane();
@@ -111,7 +113,10 @@ public class DockFXPersistence extends Application {
       @Override
       public void handle(ActionEvent event) {
         try {
-          mainBorderPane.setCenter(persistent.load(getUserDataDirectory() + "dock.pref"));
+          paneHolder.get().dispose();
+          DockPane pane  = persistent.load(getUserDataDirectory() + "dock.pref");
+          paneHolder.set(pane);
+          mainBorderPane.setCenter(pane);
         } catch (PersistanceException e) {
           e.printStackTrace();
         }
